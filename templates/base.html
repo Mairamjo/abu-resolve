@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}ABU Resolve{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="{{ url_for('index') }}"><span class="brand-mark">ar</span><span>ABU <b>Resolve</b><small>Student support, made clearer.</small></span></a>
+  {% if current_user %}<nav class="desktop-nav">{% if current_user.role == 'admin' %}<a href="{{ url_for('admin_dashboard') }}">Overview</a><a href="{{ url_for('admin_complaints') }}">Manage complaints</a>{% else %}<a href="{{ url_for('dashboard') }}">Home</a><a href="{{ url_for('my_complaints') }}">My complaints</a><a class="nav-cta" href="{{ url_for('new_complaint') }}">+ New complaint</a>{% endif %}<a href="{{ url_for('logout') }}">Sign out</a></nav>{% else %}<nav class="desktop-nav"><a href="{{ url_for('login') }}">Sign in</a><a class="nav-cta" href="{{ url_for('register') }}">Create account</a></nav>{% endif %}
+</header>
+<main class="page-wrap">
+  {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<div class="flash-stack">{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}</div>{% endif %}{% endwith %}
+  {% block content %}{% endblock %}
+</main>
+<footer class="footer"><span>ABU Resolve</span><span>Helping concerns reach the right people.</span></footer>
+{% if current_user %}<div class="mobile-nav"><a href="{{ url_for('admin_dashboard') if current_user.role == 'admin' else url_for('dashboard') }}">⌂<small>Home</small></a><a href="{{ url_for('admin_complaints') if current_user.role == 'admin' else url_for('my_complaints') }}">▤<small>{{ 'Manage' if current_user.role == 'admin' else 'My cases' }}</small></a>{% if current_user.role != 'admin' %}<a href="{{ url_for('new_complaint') }}">＋<small>Submit</small></a>{% endif %}<a href="{{ url_for('logout') }}">↗<small>Sign out</small></a></div>{% endif %}
+</body></html>

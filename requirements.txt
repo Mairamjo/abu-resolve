@@ -1,0 +1,7 @@
+Flask>=3.0,<4.0
+python-dotenv>=1.0
+openai>=1.40
+# Optional providers (only if you set AI_PROVIDER to these):
+# google-genai>=1.0
+# anthropic>=0.40
+ 
